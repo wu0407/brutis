@@ -10,9 +10,9 @@ For greater control, you can run the collector and the client as standalone prog
 
 === Required Libraries ===
 
-  * pear/Net_Socket >= 1.0.8 - http://pear.php.net/package/Net_Socket
-  * pear/Net_Server >= 1.0.2 - http://pear.php.net/package/Net_Server
-  * pecl/memcache   >= 2.2.4 - http://pecl.php.net/package/memcache
+  * pear/Net_Socket 1.0.8 - http://pear.php.net/package/Net_Socket
+  * pear/Net_Server 1.0.2 - http://pear.php.net/package/Net_Server
+  * pecl/memcache 2.2.4 - http://pecl.php.net/package/memcache
 
 === How It Works ===
 
