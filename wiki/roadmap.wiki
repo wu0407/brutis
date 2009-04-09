@@ -8,4 +8,4 @@
  * Memcache library abstraction
  * Support for libmemcached library
  * Support for memcache counter testing
- * Support for delete testing
+ * Support for memcache delete testing
