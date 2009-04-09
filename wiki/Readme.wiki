@@ -16,13 +16,13 @@ For greater control, you can run the collector and the client as standalone prog
   * pear/Net_Server >= 1.0.2 - http://pear.php.net/package/Net_Server
   * pecl/memcache   >= 2.2.4 - http://pecl.php.net/package/memcache
 
-=== Overview ===
+=== How It Works ===
 
-  * Generate pseudo random data and md5 checksum
-  * Do memcache set operation with object that encapsulates data and md5 checksum
-  * Do memcache get operation from memcache servers
-  * Verify data and md5 checksum match
-  * report results to collector
+  * Brutis generates pseudo random data and md5 checksum
+  * Brutis does memcache set operation with object that encapsulates data and md5 checksum
+  * Brutis does memcache get operation from memcache servers
+  * Brutis verifies data and md5 checksum match
+  * Brutis reports results to its collector
 
 === Known Limitations ===
 
