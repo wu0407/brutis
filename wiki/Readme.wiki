@@ -26,9 +26,9 @@ Brutis exercises and measures the performance of one or more memcache instances 
   #. Reporting the results to a collector
 
 === Required Libraries ===
-        * `pear/Net_Socket` >= 1.0.8 - http://pear.php.net/package/Net_Socket
-        * `pear/Net_Server` >= 1.0.2 - http://pear.php.net/package/Net_Server
-        * `pecl/memcache`   >= 2.2.4 - http://pecl.php.net/package/memcache
+        * `pear/Net_Socket >= 1.0.8 -` http://pear.php.net/package/Net_Socket
+        * `pear/Net_Server >= 1.0.2 -` http://pear.php.net/package/Net_Server
+        * `pecl/memcache   >= 2.2.4 -` http://pecl.php.net/package/memcache
 
 
 
