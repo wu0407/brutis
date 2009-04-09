@@ -165,7 +165,7 @@ t2 - t1 = elapsed_time
 gets/elapsed_time = gets_per_sec
 }}}
 
-To calculate say gets per second from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Divide the value from the "gets" column by the elapsed time and you have gets per second.
+To calculate gets, sets, hits, misses, set_fails, md5_fail, or transferred per second from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Divide the value from the column you wish to calculate by the elapsed time and you have the per second value.
 
 {{{
 #timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:clients
@@ -182,7 +182,7 @@ To calculate say gets per second from the below format. You need to subtract the
 #Total Operations 500000
 }}}
 
- * To calculate total gets, you must add all values, in the gets column.
+ * To calculate totals for gets, sets, hits, misses, set_fails, or md5_fails, you must add all values in the gets column.
 
 === Examples Usage ===
 {{{
