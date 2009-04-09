@@ -159,13 +159,12 @@ Stats are averaged over the poll interval. Default 2 seconds.
 === File Output ===
 File output is in colon delimited format. A new line is added at every poll interval set at the command line. default is 2 seconds.
 
-To create a sample:
+To calculate gets, sets, hits, misses, set_fails, md5_fail, or transferred per second from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Divide the value from the column you wish to calculate by the elapsed time to calculate the per second value.
+
 {{{
 t2 - t1 = elapsed_time
 column_value/elapsed_time = value_per_sec
 }}}
-
-To calculate gets, sets, hits, misses, set_fails, md5_fail, or transferred per second from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Divide the value from the column you wish to calculate by the elapsed time to calculate the per second value.
 
 
 {{{
