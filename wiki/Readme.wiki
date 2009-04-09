@@ -118,8 +118,9 @@ Exit Code 4:	Warning - Either Set failures or md5 checksum mismatch
 }}}
 
 === Collector Output ===
-     * 165.44 Sets/sec, 1652.69 Gets/Sec, 7.69 Hits/sec, 1645 Misses/sec, 0 Fails/sec, 1818.13 Ops/sec 0.04 MB/sec, 1 Clients
-
+{{{{
+165.44 Sets/sec, 1652.69 Gets/Sec, 7.69 Hits/sec, 1645 Misses/sec, 0 Fails/sec, 1818.13 Ops/sec 0.04 MB/sec, 1 Clients
+}}}}
      * Sets and Gets are memcache operations
      * Hits, Misses, and fails are key transations
 
