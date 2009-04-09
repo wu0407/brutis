@@ -30,7 +30,7 @@ Brutis exercises and measures the performance of one or more memcache instances 
   * stats collection method not accurate.
 
 === Files ===
-{{{
+
 ./license License info 
 ./readme This file
 ./milkbone Main executable.
@@ -38,7 +38,7 @@ Brutis exercises and measures the performance of one or more memcache instances 
 ./lib/collector Statistic collector
 ./lib/functions.php Common functions 
 ./lib/taskmanager.php Taskmanager class
-}}}
+
 === Usage ===
 {{{	
 milkbone [OPTIONS] -x [server,..]
