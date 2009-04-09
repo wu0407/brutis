@@ -140,6 +140,7 @@ Memcache Server(s): mc-1:11211:0
 
 Starting collector
 36891.91 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 36891.91 Ops/sec 9.01 MB/sec, 20 Clients
+Total operations 66202
 }}}
 
 Stats are averaged over the poll interval. Default 2 seconds.
@@ -160,6 +161,7 @@ To calculate say gets per second from the below format. You need to subtract the
 #timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:size:clients
 1239269597.5658:70120:0:0:0:0:0:70120:17950720:mixed:20
 1239269605.5669:73269:0:0:0:0:0:73269:18756864:mixed:20
+#Total Operations 66202
 }}}
 
 
