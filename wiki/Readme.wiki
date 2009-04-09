@@ -119,11 +119,25 @@ Exit Code 4:	Warning - Either Set failures or md5 checksum mismatch
 
 === Collector Output ===
 {{{
-165.44 Sets/sec, 1652.69 Gets/Sec, 7.69 Hits/sec, 1645 Misses/sec, 0 Fails/sec, 1818.13 Ops/sec 0.04 MB/sec, 1 Clients
+36891.91 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 36891.91 Ops/sec 9.01 MB/sec, 20 Clients
 }}}
      * Sets and Gets are memcache operations
      * Hits, Misses, and fails are key transations
 
+=== File Output ===
+File output is in colon delimited format. Written to at the poll interval set at the command line default is 2 seconds.
+
+To calculate gets/second from the below format. You need to subtract the 2nd lines timestamps from the 1st line. This will give you the elapsed time. Divide the number in the gets column by the elapsed time and you have gets per second.
+
+$t2 - $t1 = $elapsed_time
+$gets/$elapsed_time = $gets_per_sec
+
+
+{{{
+#timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:size:clients
+1239269597.5658:70120:0:0:0:0:0:70120:17950720:mixed:20
+1239269605.5669:73269:0:0:0:0:0:73269:18756864:mixed:20
+}}}
 
 
 === Examples Usage ===
