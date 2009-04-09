@@ -131,10 +131,10 @@ Key Prefix: brutis-
 Batch: 1
 Poll Interval: 2 seconds
 Object Size: 256
-output file: asdf
-Collector: la-cn1:9091
+output file: output.log
+Collector: cn1:9091
 Memcache Library Version: 3
-Memcache Server(s): la-zyounker-1:11211:0
+Memcache Server(s): mc-1:11211:0
 --------------------------------------------------------
 
 Starting collector
