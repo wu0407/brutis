@@ -2,7 +2,7 @@
 
 = Features =
 
- * php based web dashboard
- * Ajax graphing using flot
- * memcache library abstraction
- * support for libmemcached library
+ * PHP based web dashboard
+ * AJAX graphing using flot
+ * Memcache library abstraction
+ * Support for libmemcached library
