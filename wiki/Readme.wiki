@@ -165,7 +165,7 @@ t2 - t1 = elapsed_time
 column_value/elapsed_time = value_per_sec
 }}}
 
-To calculate gets, sets, hits, misses, set_fails, md5_fail, or transferred per second stats from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Divide the value from the column you wish to calculate by the elapsed time to calculate the per second stat.
+To calculate operations or transactions per second stats from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Then divide the value from the column you wish to calculate by the elapsed time to calculate the per second stat.
 
 
 {{{
