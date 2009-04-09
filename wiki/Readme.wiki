@@ -119,10 +119,31 @@ Exit Code 4:	Warning - Either Set failures or md5 checksum mismatch
 
 === Collector Output ===
 {{{
+
+Brutis
+--------------------------------------------------------
+Ratio: 1:0
+Pattern: S:R
+Forks: 20
+Key Offset: 0
+Max Keys: 1000000
+Key Prefix: brutis-
+Batch: 1
+Poll Interval: 2 seconds
+Object Size: 256
+output file: asdf
+Collector: la-cn1:9091
+Memcache Library Version: 3
+Memcache Server(s): la-zyounker-1:11211:0
+--------------------------------------------------------
+
+Starting collector
 36891.91 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 36891.91 Ops/sec 9.01 MB/sec, 20 Clients
 }}}
-     * Sets and Gets are memcache operations
-     * Hits, Misses, and fails are key transations
+
+Stats are averaged over the poll interval. Default 2 seconds.
+ * Sets and Gets are memcache operations
+ * Hits, Misses, and fails are key transations
 
 === File Output ===
 File output is in colon delimited format. A new line is added at every poll interval set at the command line. default is 2 seconds.
