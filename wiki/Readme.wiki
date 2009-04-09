@@ -174,7 +174,6 @@ Version - 0.86
                 * Fixed incorrect exitcode of 1024 from client
                 * Removed collector limitation of running on all ip/ports
 Version - 0.85
-                * Name change to Brutis
                 * Added host validation
                 * Many cleanups
 Version - 0.83
@@ -196,5 +195,3 @@ Version - 0.80
                 * Fixed bug to correctly display MB/Sec transferred with mixed object sizes
 Version - pre 0.80
                 * Undocumented
-
-
