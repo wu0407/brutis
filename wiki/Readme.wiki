@@ -112,10 +112,11 @@ Options may be given in any order.
 
 
 === Exit Codes ===
+{{{
 Exit Code 0:	Success	
 Exit Code 1:	Error
 Exit Code 4:	Warning - Either Set failures or md5 checksum mismatch
-
+}}}
 === Examples Usage ===
 {{{
 Single client node, 20 forks, random Set test, single collector	
