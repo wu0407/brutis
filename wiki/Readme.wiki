@@ -119,12 +119,11 @@ Exit Code 4:	Warning - Either Set failures or md5 checksum mismatch
 
 === Collector Output ===
 {{{
-
 Brutis
 --------------------------------------------------------
 Ratio: 1:0
-Pattern: S:R
-Forks: 20
+Pattern: R:R
+Forks: 10
 Key Offset: 0
 Max Keys: 1000000
 Key Prefix: brutis-
@@ -133,14 +132,24 @@ MD5 checksum: Enabled
 Poll Interval: 2 seconds
 Object Size: 256
 Output file: output.log
+Operations: 50000
 Collector: cn1:9091
 Memcache Library Version: 3
 Memcache Server(s): mc-1:11211:0
 --------------------------------------------------------
 
 Starting collector
-36891.91 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 36891.91 Ops/sec 9.01 MB/sec, 20 Clients
-Total operations 66202
+2858.28 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 2858.28 Ops/sec 0.7 MB/sec, 9 Clients
+26101.39 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 26101.39 Ops/sec 6.37 MB/sec, 10 Clients
+31088.12 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 31088.12 Ops/sec 7.59 MB/sec, 10 Clients
+28690.35 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 28690.35 Ops/sec 7 MB/sec, 10 Clients
+29509.07 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 29509.07 Ops/sec 7.2 MB/sec, 10 Clients
+28652.42 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 28652.42 Ops/sec 7 MB/sec, 10 Clients
+28831.6 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 28831.6 Ops/sec 7.04 MB/sec, 10 Clients
+29353.4 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 29353.4 Ops/sec 7.17 MB/sec, 10 Clients
+32913.78 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 32913.78 Ops/sec 8.04 MB/sec, 4 Clients
+26824.26 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 26824.26 Ops/sec 6.55 MB/sec, 0 Clients
+Total Operations 500000
 }}}
 
 Stats are averaged over the poll interval. Default 2 seconds.
@@ -159,9 +168,17 @@ To calculate say gets per second from the below format. You need to subtract the
 
 {{{
 #timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:size:clients
-1239269597.5658:70120:0:0:0:0:0:70120:17950720:mixed:20
-1239269605.5669:73269:0:0:0:0:0:73269:18756864:mixed:20
-#Total Operations 66202
+1239273168.382:6628:0:0:0:0:0:6628:1696768:mixed:9
+1239273170.687:60166:0:0:0:0:0:60166:15402496:mixed:10
+1239273172.7554:64300:0:0:0:0:0:64300:16460800:mixed:10
+1239273174.7555:57386:0:0:0:0:0:57386:14690816:mixed:10
+1239273176.7557:59022:0:0:0:0:0:59022:15109632:mixed:10
+1239273178.7559:57311:0:0:0:0:0:57311:14671616:mixed:10
+1239273180.756:57666:0:0:0:0:0:57666:14762496:mixed:10
+1239273182.7561:58709:0:0:0:0:0:58709:15029504:mixed:10
+1239273184.7562:65833:0:0:0:0:0:65833:16853248:mixed:4
+1239273185.2401:12979:0:0:0:0:0:12979:3322624:mixed:0
+#Total Operations 500000
 }}}
 
 
