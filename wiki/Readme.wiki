@@ -162,7 +162,7 @@ File output is in colon delimited format. A new line is added at every poll inte
 To create a sample:
 {{{
 t2 - t1 = elapsed_time
-gets/elapsed_time = gets_per_sec
+column_value/elapsed_time = value_per_sec
 }}}
 
 To calculate gets, sets, hits, misses, set_fails, md5_fail, or transferred per second from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time in seconds. Divide the value from the column you wish to calculate by the elapsed time to calculate the per second value.
