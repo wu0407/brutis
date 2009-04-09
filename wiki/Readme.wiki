@@ -4,7 +4,7 @@ Brutis is a tool designed to exercise memcache instances by providing reproducib
 
 Brutis is made up of three components. The main executable, the client, and the collector.
 
-The main executable serves as a wrapper for the client and collector. It handles forking and proccess control. The client is the acutal memcache client program. The collector aggregates the stats from one or many client processes and outputs results to the screen or to a file.
+The main executable serves as a wrapper for the client and collector. It handles forking and process control. The client is the actual memcache client program. The collector aggregates the stats from one or many client processes and outputs results to the screen or to a file.
 
 For greater control, you can run the collector and the client as standalone programs.
 
@@ -30,15 +30,15 @@ Brutis exercises and measures the performance of one or more memcache instances 
   * stats collection method not accurate.
 
 === Files ===
-
+{{{
 ./license License info 
 ./readme This file
-./milkbone Main executable.
+./brutis Main executable.
 .lib/client Memcache client
 ./lib/collector Statistic collector
 ./lib/functions.php Common functions 
 ./lib/taskmanager.php Taskmanager class
-
+}}}
 === Usage ===
 {{{	
 milkbone [OPTIONS] -x [server,..]
