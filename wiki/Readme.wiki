@@ -12,33 +12,33 @@ For greater control, you can run the collector and the client as standalone prog
 
 === Required Libraries ===
 
-* pear/Net_Socket >= 1.0.8 - http://pear.php.net/package/Net_Socket
-* pear/Net_Server >= 1.0.2 - http://pear.php.net/package/Net_Server
-* pecl/memcache   >= 2.2.4 - http://pecl.php.net/package/memcache
+  * pear/Net_Socket >= 1.0.8 - http://pear.php.net/package/Net_Socket
+  * pear/Net_Server >= 1.0.2 - http://pear.php.net/package/Net_Server
+  * pecl/memcache   >= 2.2.4 - http://pecl.php.net/package/memcache
 
 === Overview ===
 
-* Generate pseudo random data and md5 checksum
-* Do memcache set operation with object that encapsulates data and md5 checksum
-* Do memcache get operation from memcache servers
-* Verify data and md5 checksum match
-* report results to collector
+  * Generate pseudo random data and md5 checksum
+  * Do memcache set operation with object that encapsulates data and md5 checksum
+  * Do memcache get operation from memcache servers
+  * Verify data and md5 checksum match
+  * report results to collector
 
 === Known Limitations ===
 
-* When connecting to a single client multiple times in a fork, reconnect will fail on duplicate client entries. 
-* stats collection method not accurate.
+  * When connecting to a single client multiple times in a fork, reconnect will fail on duplicate client entries. 
+  * stats collection method not accurate.
 
 === Files ===
-
-	./license License info 
-	./readme This file
-	./milkbone Main executable.
-	./lib/client Memcache client
-	./lib/collector Statistic collector
-	./lib/functions.php Common functions 
-	./lib/taskmanager.php Taskmanager class
-
+{{{
+./license License info 
+./readme This file
+./milkbone Main executable.
+.lib/client Memcache client
+./lib/collector Statistic collector
+./lib/functions.php Common functions 
+./lib/taskmanager.php Taskmanager class
+}}}
 === Usage ===
 {{{	
 milkbone [OPTIONS] -x [server,..]
