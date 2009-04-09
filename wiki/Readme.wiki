@@ -130,6 +130,7 @@ File output is in colon delimited format. A new line is added at every poll inte
 To calculate say gets per second from the below format. You need to subtract the 2nd line's timestamps from the 1st line's timestamp. This will give you the elapsed time. Divide the number in the "gets" column by the elapsed time and you have gets per second.
 
 $t2 - $t1 = $elapsed_time
+
 $gets/$elapsed_time = $gets_per_sec
 
 
