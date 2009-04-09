@@ -33,10 +33,10 @@ Brutis exercises and measures the performance of one or more memcache instances 
 
 
 
-=== Known Limitations ===
+===Known Issues===
+ * duplicate memcache servers in the -x option fail to reconnect on disconnect or failure.
+ * Batch gets can cause misses if rand() picks the same key multiple times
 
-  * When connecting to a single client multiple times in a fork, reconnect will fail on duplicate client entries. 
-  * stats collection method not accurate.
 
 === Files ===
 {{{
