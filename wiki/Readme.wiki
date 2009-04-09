@@ -159,6 +159,7 @@ Stats are averaged over the poll interval. Default 2 seconds.
 === File Output ===
 File output is in colon delimited format. A new line is added at every poll interval set at the command line. default is 2 seconds.
 
+To create a sample:
 {{{
 t2 - t1 = elapsed_time
 gets/elapsed_time = gets_per_sec
@@ -181,6 +182,7 @@ To calculate say gets per second from the below format. You need to subtract the
 #Total Operations 500000
 }}}
 
+ * To calculate total gets, you must add all values, in the gets column.
 
 === Examples Usage ===
 {{{
