@@ -182,7 +182,7 @@ To calculate gets, sets, hits, misses, set_fails, md5_fail, or transferred per s
 #Total Operations 500000
 }}}
 
- * To calculate totals for gets, sets, hits, misses, set_fails, or md5_fails, you must add all values in the gets column.
+ * To calculate totals for gets, sets, hits, misses, set_fails, or md5_fails, you must add all values in the column you wish to know the total for.
 
 === Examples Usage ===
 {{{
