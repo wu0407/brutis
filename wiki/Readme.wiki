@@ -2,19 +2,20 @@
 
 Brutis is a tool designed to exercise memcache instances by providing reproducible performance data for comparison purposes. Brutis can be useful for sizing memcache clusters as well as testing changes to the system, the hardware, and/or the environment. Much like a dynamometer, the numbers Brutis produces are not as important as the differences in the numbers between changes to the system, the hardware, and/or the environment. 
 
+When sizing memcached clusters, Brutis can help by stressing a memcached cluster to see:
+  * How many ops the cluster is capable of
+  * How much load the network config can take
+  * How many connections a memcache cluster is capable of handling (we’ve tested up to 40K connections)
+
+With respect to instance (not cluster) sizing, Brutis can be used to simulate varying object and key sizes to see how many keys/objects can fit in a memcache instance before evictions start.
+
+=== How It Works ===
+
 Brutis is made up of three components. The main executable, the client, and the collector.
 
 The main executable serves as a wrapper for the client and collector. It handles forking and process control. The client is the actual memcache client program. The collector aggregates the stats from one or many client processes and outputs results to the screen or to a file.
 
 For greater control, you can run the collector and the client as standalone programs.
-
-=== Required Libraries ===
-
-  * pear/Net_Socket 1.0.8 - http://pear.php.net/package/Net_Socket
-  * pear/Net_Server 1.0.2 - http://pear.php.net/package/Net_Server
-  * pecl/memcache 2.2.4 - http://pecl.php.net/package/memcache
-
-=== How It Works ===
 
 Brutis exercises and measures the performance of one or more memcache instances by:
 
@@ -23,6 +24,14 @@ Brutis exercises and measures the performance of one or more memcache instances 
   #. Executing get operations from the memcache servers
   #. Verifying data and md5 checksum match
   #. Reporting the results to a collector
+
+=== Required Libraries ===
+
+  * pear/Net_Socket 1.0.8 - http://pear.php.net/package/Net_Socket
+  * pear/Net_Server 1.0.2 - http://pear.php.net/package/Net_Server
+  * pecl/memcache 2.2.4 - http://pecl.php.net/package/memcache
+
+
 
 === Known Limitations ===
 
