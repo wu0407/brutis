@@ -42,7 +42,7 @@ Brutis exercises and measures the performance of one or more memcache instances 
 ./license License info 
 ./readme This file
 ./brutis Main executable.
-.lib/client Memcache client
+./lib/client Memcache client
 ./lib/collector Statistic collector
 ./lib/functions.php Common functions 
 ./lib/taskmanager.php Taskmanager class
