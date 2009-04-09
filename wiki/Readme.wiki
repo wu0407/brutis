@@ -129,6 +129,7 @@ Key Offset: 0
 Max Keys: 1000000
 Key Prefix: brutis-
 Batch: 1
+MD5 checksum: Enabled
 Poll Interval: 2 seconds
 Object Size: 256
 Output file: output.log
