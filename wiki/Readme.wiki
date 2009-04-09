@@ -131,7 +131,7 @@ Key Prefix: brutis-
 Batch: 1
 Poll Interval: 2 seconds
 Object Size: 256
-output file: output.log
+Output file: output.log
 Collector: cn1:9091
 Memcache Library Version: 3
 Memcache Server(s): mc-1:11211:0
