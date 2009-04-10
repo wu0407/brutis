@@ -1,7 +1,7 @@
 #labels Featured
 #Brutis product roadmap
 
-= Features =
+= Planned features =
 
  * PHP based web dashboard
  * AJAX graphing using flot
