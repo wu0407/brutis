@@ -98,7 +98,7 @@ Options may be given in any order.
 	Size of object to generate for sets in bytes. Default 256.
 
 -x {Server:tcp_port:udp_port,...}
-	List of memcache servers to use. UDP port should be 0 unless trying to enable UDP support. UDP support is only available with danga memcache library 3.x 
+	List of memcache servers to add to connection pool. UDP port should be 0 unless trying to enable UDP support. UDP support is only available with danga memcache library 3.x
 
 -o {Output Filename}
 	Filename to output raw stats to. Causes collector to be invoked.
