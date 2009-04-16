@@ -66,7 +66,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$mps = round($totals['total_misses'] / $elapsed_time, 2);
 			$fps = round(($totals['set_fails'] + $totals['md5_fails']) / $elapsed_time, 2);
 			$mbps = round((($totals['total_transferred'] / 1024 / 1024) / $elapsed_time), 2);
-			$ops = round(($totals['operations'] / $elapsed_time), $settings['poll']);
+			$ops = round(($totals['operations'] / $elapsed_time), 2);
 			print ("$sps Sets/sec, $gps Gets/Sec, $hps Hits/sec, $mps Misses/sec, " . $fps . " Fails/sec, " . $ops . " Ops/sec " . $mbps . " MB/sec, " . $clients . " Clients\n");
 		}
 
