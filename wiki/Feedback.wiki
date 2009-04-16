@@ -1,1 +1,5 @@
-Please post your comments about brutis here. Thanks!
+Please post your comments about brutis here.
+
+If you have a bug or new feature you would like to request, please file one [http://code.google.com/p/brutis/issues/entry here]
+
+ Thanks!
