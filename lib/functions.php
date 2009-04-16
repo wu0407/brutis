@@ -98,7 +98,16 @@ function valid_host($host) {
 			return TRUE;
 		}
 	} else {
-		return FALSE;
+		if(preg_match('/(\d+).(\d+).(\d+).(\d+)/', $host)) {
+			$ip = gethostbyaddr($host); 
+			if ($ip == $host) {
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return FALSE;
+		}
 	}
 }
 
