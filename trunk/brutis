@@ -192,6 +192,11 @@ $tm = new TaskManager();
 
 /* Setting maxruntime for taskmanager class to kill client */
 $settings['maxruntime'] = 172800; 
+if ($settings['maxruntime'] < $settings['runtime']) {
+	$settings['maxruntime'] = $settings['runtime'] + 60; 
+} else {
+	$settings['maxruntime'] = 172800; 
+}
 
 /* Get node name */
 $host_info = posix_uname();
