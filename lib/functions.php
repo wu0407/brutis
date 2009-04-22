@@ -273,6 +273,7 @@ function parse_access_pattern($pattern, $arg) {
 		}
 	}
 }
+
 function parse_ratio($ratio, $arg) {
 /* 	parse_ratio()
 	@params mixed $ratio runtime argument array
