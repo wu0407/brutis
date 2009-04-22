@@ -376,6 +376,9 @@ function reset_cresults() {
 	global $cresults;
 	global $totals;
 
+	$cresults['set_latency'] = 0;
+	$cresults['get_latency'] = 0;
+
 	$totals['set_total'] = $totals['set_total'] + $cresults['set_count'];
 	$cresults['set_count'] = 0;
 
@@ -588,7 +591,7 @@ function run() {
 				}
 			}
 			$set_latency = microtime(TRUE) - $set_latency;
-			$cresults['set_latency'] = $set_latency;
+			$cresults['set_latency'] = $cresults['set_latency'] + $set_latency;
 
 			/* Check Access patter, R = Random, S = Sequential */
 			if ($settings['set_pattern'] == "R") {
@@ -629,7 +632,7 @@ function run() {
 				$get_latency = microtime(TRUE);
 				mc_get($get_ids);
 				$get_latency = microtime(TRUE) - $get_latency;
-				$cresults['get_latency'] = $get_latency;
+				$cresults['get_latency'] = $cresults['get_latency'] + $get_latency;
 			}
 		}
 
