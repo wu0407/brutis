@@ -487,6 +487,7 @@ function mc_get($key_ids) {
 	foreach ($key_ids as $id) {
 		$keys[] = $settings['prefix'] . $id;
 	}
+
 	$data = $memcache->get($keys);
 
 	/* Check to see if data is not an array for danga memcachelib 3.x */
@@ -558,11 +559,12 @@ function run() {
 	$cresults['set_fail_count'] = 0;
 	$totals['set_fail_total'] = 0;
 	$cresults['key_count'] = 0;
-	$cresults['latency'] = 0;
+	$cresults['set_latency'] = 0;
+	$cresults['get_latency'] = 0;
 
-	$exit_loop = FALSE;
 	$set_latency = 0;
 	$get_latency = 0;
+	$exit_loop = FALSE;
 	$set_id = $settings['offset'];
 	$get_id = $settings['offset'];
 
@@ -586,6 +588,8 @@ function run() {
 				}
 			}
 			$set_latency = microtime(TRUE) - $set_latency;
+			$cresults['set_latency'] = $set_latency;
+
 			/* Check Access patter, R = Random, S = Sequential */
 			if ($settings['set_pattern'] == "R") {
 				$set_id = rand($settings['offset'], ($settings['max_keys'] + $settings['offset']));
@@ -625,9 +629,9 @@ function run() {
 				$get_latency = microtime(TRUE);
 				mc_get($get_ids);
 				$get_latency = microtime(TRUE) - $get_latency;
+				$cresults['get_latency'] = $get_latency;
 			}
 		}
-		$cresults['latency'] = $set_latency + $get_latency;
 
 	}
 
