@@ -558,8 +558,11 @@ function run() {
 	$cresults['set_fail_count'] = 0;
 	$totals['set_fail_total'] = 0;
 	$cresults['key_count'] = 0;
+	$cresults['latency'] = 0;
 
 	$exit_loop = FALSE;
+	$set_latency = 0;
+	$get_latency = 0;
 	$set_id = $settings['offset'];
 	$get_id = $settings['offset'];
 
@@ -576,11 +579,13 @@ function run() {
 				$exit_loop = TRUE;
 				break;
 			}
+			$set_latency = microtime(TRUE);
 			if (mc_set($set_id)) {
 				if ($cresults['key_count'] < $settings['max_keys']) {
 					$cresults['key_count']++;
 				}
 			}
+			$set_latency = microtime(TRUE) - $set_latency;
 			/* Check Access patter, R = Random, S = Sequential */
 			if ($settings['set_pattern'] == "R") {
 				$set_id = rand($settings['offset'], ($settings['max_keys'] + $settings['offset']));
@@ -617,9 +622,13 @@ function run() {
 					}
 					$get_ids[] = $get_id;
 				}
+				$get_latency = microtime(TRUE);
 				mc_get($get_ids);
+				$get_latency = microtime(TRUE) - $get_latency;
 			}
 		}
+		$cresults['latency'] = $set_latency + $get_latency;
+
 	}
 
 	$cresults['end_time'] = microtime(TRUE);
