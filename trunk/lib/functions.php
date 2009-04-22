@@ -378,8 +378,8 @@ function parse_forks($options, $arg) {
 	$settings['forks'] = 1;
 	if (isset($options[$arg])) {
 		$settings['forks'] = (int) $options[$arg];
-		if ($settings['forks'] > 50 || $settings['forks'] < 1) {
-			print("Error setting forks to: " . $settings['forks'] . ", must be between 1-50!\n");
+		if ($settings['forks'] > 512 || $settings['forks'] < 1) {
+			print("Error setting forks to: " . $settings['forks'] . ", must be between 1-512!\n");
 			exit(1);
 		}
 	}
