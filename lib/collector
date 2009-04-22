@@ -67,7 +67,12 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$fps = round(($totals['set_fails'] + $totals['md5_fails']) / $elapsed_time, 2);
 			$mbps = round((($totals['total_transferred'] / 1024 / 1024) / $elapsed_time), 2);
 			$ops = round(($totals['operations'] / $elapsed_time), 2);
-			print ("$sps Sets/sec, $gps Gets/Sec, $hps Hits/sec, $mps Misses/sec, " . $fps . " Fails/sec, " . $ops . " Ops/sec " . $mbps . " MB/sec, " . $clients . " Clients\n");
+			if ($clients != 0) {
+				$latency = round(($totals['latency'] / $clients), 2);
+			} else {
+				$latency = 0;
+			}
+			print ("$sps Sets/sec, $gps Gets/Sec, $hps Hits/sec, $mps Misses/sec, " . $fps . " Fails/sec, " . $ops . " Ops/sec " . $mbps . " MB/sec, " . $clients . " Clients, ". $latency . " Latency\n");
 		}
 
 		if ($settings['filename'] != NULL) {
@@ -80,7 +85,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 				$totals['md5_fails'] . ':' .
 				$totals['operations'] . ':' .
 				$totals['total_transferred'] . ':' .
-				$clients . "\n");
+				$clients . ':' .
+				$latency . "\n");
 		}
 	}
 
@@ -104,7 +110,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		if ($settings['filename'] != NULL) {
 			if (!$foutput) {
 				$foutput = fopen($settings['filename'], 'w');
-				fwrite($foutput, "#timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:clients\n");
+				fwrite($foutput, "#timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:clients:latency\n");
 			}
 		}
 	}
@@ -206,6 +212,9 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		if (isset($data['transferred'])) {
 			$totals['total_transferred'] = $data['transferred'] + $totals['total_transferred'];
 		}
+		if (isset($data['latency'])) {
+			$totals['latency'] = $data['latency'] + $totals['latency'];
+		}
 
 		$current_time = microtime(TRUE);
 		$elapsed_time = $current_time - $totals['last_write'];
@@ -221,6 +230,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 */
 		global $totals;
 
+		$totals['latency'] = 0;
 		$totals['total_sets'] = 0;
 		$totals['total_gets'] = 0;
 		$totals['total_hits'] = 0;
