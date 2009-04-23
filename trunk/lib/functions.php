@@ -1,6 +1,6 @@
 <?php
 /*	Project:        Brutis
-	Version:        0.89
+	Version:        0.90
 	Author:         Zach Younker
 	Copyright:
 
@@ -324,9 +324,9 @@ function parse_checksum($checksum, $arg) {
 
 	check_arg($checksum, $arg);
 
-	$settings['checksum'] = TRUE;
+	$settings['checksum'] = FALSE;
 	if (isset($checksum[$arg])) {
-		$settings['checksum'] = FALSE;
+		$settings['checksum'] = TRUE;
 	}
 }
 
