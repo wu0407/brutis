@@ -65,7 +65,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$hps = round($totals['total_hits'] / $elapsed_time, 2);
 			$mps = round($totals['total_misses'] / $elapsed_time, 2);
 			$fps = round(($totals['set_fails'] + $totals['md5_fails']) / $elapsed_time, 2);
-			$mbps = round((($totals['total_transferred'] / 1024 / 1024) / $elapsed_time), 2);
+			$mbps = round(((($totals['set_transferred'] + $totals['get_transferred']) / 1024 / 1024) / $elapsed_time), 2);
 			$ops = round(($totals['operations'] / $elapsed_time), 2);
 			if ($clients != 0) {
 				$set_latency = round((($totals['set_latency'] / $clients) / $elapsed_time), 2);
@@ -88,7 +88,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 				$totals['set_fails'] . ':' .
 				$totals['md5_fails'] . ':' .
 				$totals['operations'] . ':' .
-				$totals['total_transferred'] . ':' .
+				($totals['set_transferred'] + $totals['get_transferred']) . ':' .
 				$clients . "\n");
 		}
 	}
@@ -212,8 +212,11 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		if (isset($data['md5_fail_count'])) {
 			$totals['md5_fails'] = $data['md5_fail_count'] + $totals['md5_fails'];
 		}
-		if (isset($data['transferred'])) {
-			$totals['total_transferred'] = $data['transferred'] + $totals['total_transferred'];
+		if (isset($data['set_transferred'])) {
+			$totals['set_transferred'] = $data['set_transferred'] + $totals['set_transferred'];
+		}
+		if (isset($data['get_transferred'])) {
+			$totals['get_transferred'] = $data['get_transferred'] + $totals['get_transferred'];
 		}
 		if (isset($data['set_latency'])) {
 			$totals['set_latency'] = $data['set_latency'] + $totals['set_latency'];
@@ -244,7 +247,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		$totals['total_misses'] = 0;
 		$totals['set_fails'] = 0;
 		$totals['md5_fails'] = 0;
-		$totals['total_transferred'] = 0;
+		$totals['set_transferred'] = 0;
+		$totals['get_transferred'] = 0;
 		$totals['operations'] = 0;
 		$totals['keys'] = 0;
 
