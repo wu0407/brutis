@@ -79,8 +79,11 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		$sample['miss_count'] = 0;
 		$sample['set_fail_count'] = 0;
 		$sample['md5_fail_count'] = 0;
-		$sample['transferred'] = 0;
+		$sample['set_transferred'] = 0;
+		$sample['get_transferred'] = 0;
 		$sample['operations'] = 0;
+		$sample['set_latency'] = 0;
+		$sample['get_latency'] = 0;
 
 		foreach ($totals as $client_id=>$total) {
 			foreach ($total['raw'] as $key=>$value) {
@@ -95,7 +98,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 				"Total Set Fails:\t" . pad($sample['set_fail_count']) . "\n" .
 				"Total MD5 Fails:\t" . pad($sample['md5_fail_count']) . "\n" .
 				"Total Keys:\t\t" . pad($sample['key_count']) . "\n" .
-				"Total Transferred:\t" . pad($sample['transferred']) . "\n" .
+				"Total Transferred:\t" . pad($sample['set_transferred'] + $sample['get_transferred']) . "\n" .
 				"\n");
 		return $summary;
 	}
@@ -112,6 +115,18 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		global $last_write;
 
 		$sample = array();
+		$sample['key_count'] = 0;
+		$sample['set_count'] = 0;
+		$sample['get_count'] = 0;
+		$sample['hit_count'] = 0;
+		$sample['miss_count'] = 0;
+		$sample['set_fail_count'] = 0;
+		$sample['md5_fail_count'] = 0;
+		$sample['set_transferred'] = 0;
+		$sample['get_transferred'] = 0;
+		$sample['operations'] = 0;
+		$sample['set_latency'] = 0;
+		$sample['get_latency'] = 0;
 
 		if ($settings['verbose']) {
 			foreach ($totals as $client_id=>$total) {
@@ -125,34 +140,36 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$mps = number_format($sample['miss_count'] / $elapsed_time, 2, '.', ',');
 			$sfps = number_format($sample['set_fail_count'] / $elapsed_time, 2, '.', ',');
 			$mfps = number_format($sample['md5_fail_count'] / $elapsed_time, 2, '.', ',');
-			$mbps = number_format((($sample['transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
+			$tfps = number_format(($sample['md5_fail_count'] + $sample['set_fail_count']) / $elapsed_time, 2, '.', ',');
+			$tmbps = number_format(((($sample['set_transferred'] + $sample['get_transferred']) / 1024 / 1024) / $elapsed_time), 2, '.', ',');
+			$smbps = number_format((($sample['set_transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
+			$gmbps = number_format((($sample['get_transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
 			$ops = number_format(($sample['operations'] / $elapsed_time), 2, '.', ',');
 
 			if ($clients != 0) {
 				$set_latency = number_format((($sample['set_latency'] / $clients) / $elapsed_time), 2, '.', ',');
 				$get_latency = number_format((($sample['get_latency'] / $clients) / $elapsed_time), 2, '.', ',');
+				$total_latency = number_format(((($sample['get_latency'] + $sample['set_latency']) / $clients) / $elapsed_time), 2, '.', ',');
 			} else {
-				$set_latency = 0;
-				$get_latency = 0;
+				$set_latency = number_format(0, 2, '.', ',');
+				$get_latency = number_format(0, 2, '.', ',');
+				$total_latency = number_format(0, 2, '.', ',');
 			}
 
 			self::clear_screen();
 
-			print  ("Brutis								Clients: $clients\n" .
+			print  ("Brutis                                                     " . pad($clients) ." Clients\n\n" .
+				'Type   ' . pad('Ops/sec') . pad('Hits/sec') . pad('Misses/sec') . pad('Fails/sec') . pad('Latency') . pad('MB/sec') . "\n" .
 				"-------------------------------------------------------------------------------\n" .
-				"Operations:\n" .
-				"Sets:\t" . pad($sps) . "/sec\t" . pad($set_latency) . " Avg Latency\n" .
-				"Gets:\t" . pad($gps) . "/sec\t" . pad($get_latency) . " Avg Latency\n" .
-				"Total:\t" . pad($ops) . "/sec\t". pad($mbps) . " MB/sec\n\n" .
+				'Sets:  ' . pad($sps) . pad('---') . pad('---') . pad($sfps) . pad($set_latency) . pad($smbps) . "\n" .
+				'Gets:  ' . pad($gps) . pad($hps) . pad($mps) . pad($mfps) . pad($get_latency) . pad($gmbps) . "\n" .
+				'Totals:' . pad($ops) . pad($hps) . pad($mps) . pad($tfps) . pad($total_latency) . pad($tmbps) . "\n" .
+				"-------------------------------------------------------------------------------\n\n" .
 
-				"Key Transactions:\n" .
-				"Hits:\t\t" . pad($hps) . "/sec\n" .
-				"Misses:\t\t" . pad($mps) ."/sec\n" .
-				"Set Fails:\t" . pad($sfps) ."/sec\n" .
-				"Checksum Fails:\t" . pad($mfps) ."/sec\n\n" .
-
-				"#" . pad('Sets/sec') . pad('Latency') . pad('Gets/sec') . pad('Latency') . pad('Mb/sec') . "\n" .
-				"-------------------------------------------------------------------------------\n");
+				"                   SETS                                 GETS\n" .
+				"-------------------------------------------------------------------------------\n" .
+				"#" . pad('Ops/sec') . pad('Latency') . pad('MB/sec') . " " . pad('Ops/sec') . pad('Latency') . pad('MB/sec') . "\n" .
+				"-------------------------------------     -------------------------------------\n");
 
 			foreach ($totals as $client_id=>$total) {
 				if (isset($total['settings'])) {
@@ -160,7 +177,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 					$c_get_latency = number_format(($total['sample']['get_latency'] / $elapsed_time), 2, '.', ',');
 					$c_sps = number_format($total['sample']['set_count'] / $elapsed_time, 2, '.', ',');
 					$c_gps = number_format($total['sample']['get_count'] / $elapsed_time, 2, '.', ',');
-					$c_mbps = number_format((($total['sample']['transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
+					$c_smbps = number_format((($total['sample']['set_transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
+					$c_gmbps = number_format((($total['sample']['get_transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
 					$c_ratio = $total['settings']['set_ratio'] . ':' . $total['settings']['get_ratio'];
 					$c_pattern = $total['settings']['set_pattern'] . ':' . $total['settings']['get_pattern'];
 					if ($total['settings']['checksum'] == TRUE) {
@@ -169,7 +187,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 						$c_checksum = "FALSE";
 					}
 	
-					printf($client_id . pad($c_sps) . pad($c_set_latency) . pad($c_gps) . pad($c_get_latency) . pad($c_mbps) . "\n");
+					printf($client_id . pad($c_sps) . pad($c_set_latency) . pad($c_smbps) . " " . pad($c_gps) . pad($c_get_latency) . pad($c_gmbps) . "\n");
 				}
 			}
 		}
@@ -185,7 +203,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 				$sample['set_fail_count'] . ':' .
 				$sample['md5_fail_count'] . ':' .
 				$sample['operations'] . ':' .
-				$sample['transferred'] . ':' .
+				$sample['set_transferred'] . ':' .
+				$sample['get_transferred'] . ':' .
 				$clients . "\n");
 		}
 	}
@@ -209,7 +228,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		if ($settings['filename'] != NULL) {
 			if (!$foutput) {
 				$foutput = fopen($settings['filename'], 'w');
-				fwrite($foutput, "#timestamp:sets:set_latency:gets:get_latency:hits:misses:set_fails:md5_fails:operations:transferred:clients\nSTART\n");
+				fwrite($foutput, "#timestamp:sets:set_latency:gets:get_latency:hits:misses:set_fails:md5_fails:operations:set_transferred:get_transferred:clients\nSTART\n");
 			}
 		}
 	}
@@ -260,7 +279,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		$totals[$client_id]['raw']['miss_count'] = 0;
 		$totals[$client_id]['raw']['set_fail_count'] = 0;
 		$totals[$client_id]['raw']['md5_fail_count'] = 0;
-		$totals[$client_id]['raw']['transferred'] = 0;
+		$totals[$client_id]['raw']['set_transferred'] = 0;
+		$totals[$client_id]['raw']['get_transferred'] = 0;
 
 		$totals[$client_id]['sample'] = array();
 		$totals[$client_id]['sample']['key_count'] = 0;
@@ -271,7 +291,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		$totals[$client_id]['sample']['miss_count'] = 0;
 		$totals[$client_id]['sample']['set_fail_count'] = 0;
 		$totals[$client_id]['sample']['md5_fail_count'] = 0;
-		$totals[$client_id]['sample']['transferred'] = 0;
+		$totals[$client_id]['sample']['set_transferred'] = 0;
+		$totals[$client_id]['sample']['get_transferred'] = 0;
 		$totals[$client_id]['sample']['set_latency'] = 0;
 		$totals[$client_id]['sample']['get_latency'] = 0;
 
@@ -340,9 +361,13 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$totals[$client_id]['sample']['md5_fail_count'] = $totals[$client_id]['sample']['md5_fail_count'] + $data['md5_fail_count'];		
 			$totals[$client_id]['raw']['md5_fail_count'] = $totals[$client_id]['raw']['md5_fail_count'] + $data['md5_fail_count'];		
 		}
-		if (isset($data['transferred'])) {
-			$totals[$client_id]['sample']['transferred'] = $totals[$client_id]['sample']['transferred'] + $data['transferred'];		
-			$totals[$client_id]['raw']['transferred'] = $totals[$client_id]['raw']['transferred'] + $data['transferred'];		
+		if (isset($data['set_transferred'])) {
+			$totals[$client_id]['sample']['set_transferred'] = $totals[$client_id]['sample']['set_transferred'] + $data['set_transferred'];		
+			$totals[$client_id]['raw']['set_transferred'] = $totals[$client_id]['raw']['set_transferred'] + $data['set_transferred'];		
+		}
+		if (isset($data['get_transferred'])) {
+			$totals[$client_id]['sample']['get_transferred'] = $totals[$client_id]['sample']['get_transferred'] + $data['get_transferred'];		
+			$totals[$client_id]['raw']['get_transferred'] = $totals[$client_id]['raw']['get_transferred'] + $data['get_transferred'];		
 		}
 		if (isset($data['set_latency'])) {
 			$totals[$client_id]['sample']['set_latency'] = $totals[$client_id]['sample']['set_latency'] + $data['set_latency'];		
