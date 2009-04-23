@@ -397,7 +397,9 @@ function reset_cresults() {
 	$totals['set_fail_total'] = $totals['set_fail_total'] + $cresults['set_fail_count'];
 	$cresults['set_fail_count'] = 0;
 
-	$cresults['transferred'] = 0;
+	$cresults['set_transferred'] = 0;
+
+	$cresults['get_transferred'] = 0;
 
 	$cresults['operations'] = 0;
 
@@ -461,9 +463,9 @@ function mc_set($id) {
 		$tmp_data = $data['data'];
 	}
 	if ($memcache->set($key, $tmp_data)) {
-		$cresults['transferred'] = $cresults['transferred'] + strlen($data['data']);
+		$cresults['set_transferred'] = $cresults['set_transferred'] + strlen($data['data']);
 		if ($settings['checksum'] == TRUE) {
-			$cresults['transferred'] = $cresults['transferred'] + strlen($data['md5']);
+			$cresults['set_transferred'] = $cresults['set_transferred'] + strlen($data['md5']);
 		}
 		$cresults['operations']++;
 		$cresults['total_operations']++;
@@ -507,10 +509,10 @@ function mc_get($key_ids) {
 				} else {
 					$cresults['hit_count']++;
 				}
-				$cresults['transferred'] = $cresults['transferred'] + strlen($tmp_data['data']);
-				$cresults['transferred'] = $cresults['transferred'] + strlen($tmp_data['md5']);
+				$cresults['get_transferred'] = $cresults['get_transferred'] + strlen($tmp_data['data']);
+				$cresults['get_transferred'] = $cresults['get_transferred'] + strlen($tmp_data['md5']);
 			} else {
-				$cresults['transferred'] = $cresults['transferred'] + strlen($tmp_data);
+				$cresults['get_transferred'] = $cresults['get_transferred'] + strlen($tmp_data);
 				$cresults['hit_count']++;
 			}
 		}
@@ -548,7 +550,8 @@ function run() {
 	$cresults['object_size'] = $settings['object_size'];
 	$cresults['total_operations'] = 0;
 	$cresults['operations'] = 0;
-	$cresults['transferred'] = 0;
+	$cresults['set_transferred'] = 0;
+	$cresults['get_transferred'] = 0;
 	$cresults['set_count'] = 0;
 	$totals['set_total'] = 0;
 	$cresults['get_count'] = 0;
@@ -564,6 +567,8 @@ function run() {
 	$cresults['key_count'] = 0;
 	$cresults['set_latency'] = 0;
 	$cresults['get_latency'] = 0;
+
+	$cresults['settings'] = $settings;
 
 	$set_latency = 0;
 	$get_latency = 0;
