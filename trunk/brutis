@@ -65,9 +65,9 @@ class collector extends Task{
 		}
 		$options[] = '-c' . $this->args['collector']['server'] . ":". $this->args['collector']['port'];
 		if (isset($options)) {
-			pcntl_exec('lib/collector', $options);
+			pcntl_exec('lib/collector2', $options);
 		} else {
-			pcntl_exec('lib/collector', array());
+			pcntl_exec('lib/collector2', array());
 		}
 	}
 	function finish() {
