@@ -106,7 +106,7 @@ function set_intervals () {
 */
 	global $settings;
 
-	if ($settings['set_ratio']==0 || $settings['get_ratio'] == 0) {
+	if (($settings['set_ratio']==0) || ($settings['get_ratio'] == 0) || ($settings['set_ratio'] % $settings['get_ratio'] != 0)  || ($settings['get_ratio'] % $settings['set_ratio'] != 0)) {
 		/* if either are zero, then we don't need to do anything */
 		$settings['get_interval'] = $settings['get_ratio'];
 		$settings['set_interval'] = $settings['set_ratio'];
