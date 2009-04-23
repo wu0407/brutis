@@ -194,7 +194,7 @@ Single client node, 20 forks, random Set test, single collector
 Single client node, 20 forks, random Get test, single collector
 	cn-1: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4 -a r:r -r 0:1 -v
 
-Single client node, 20 fork, random 1:10 get:set ratio, single collector
+Single client node, 20 fork, random 1:10 set:get ratio, single collector
 	cn-1: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4 -a r:r -r 1:10 -v
 
 Multi client node, 20 forks, random Set test, single collector
