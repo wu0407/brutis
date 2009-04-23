@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 /*	Project:        Brutis
-	Version:        0.89
+	Version:        0.90.
 	Author:         Zach Younker
 	Copyright:
 
@@ -69,7 +69,7 @@ function init_settings($argc, $argv) {
 			. "      -z <#>                          Key id Offset\n"
 			. "      -b <#>                          Number of gets to batch together\n"
 			. "      -i <#>                          Collector Poll time in seconds\n"
-			. "      -d                              Disable data checksum\n"
+			. "      -d                              Enable data checksum\n"
 			. "      -k <#>                          Max keys\n"
 			. "      -p                              key prefix\n"
 			. "      -r <#:#>                        Ratio Sets:Gets\n"
