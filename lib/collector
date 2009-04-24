@@ -67,9 +67,12 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$fps = round(($totals['set_fails'] + $totals['md5_fails']) / $elapsed_time, 2);
 			$mbps = round(((($totals['set_transferred'] + $totals['get_transferred']) / 1024 / 1024) / $elapsed_time), 2);
 			$ops = round(($totals['operations'] / $elapsed_time), 2);
-			if ($clients != 0) {
-				$set_latency = round((($totals['set_latency'] / $clients) / $elapsed_time), 2);
+			if ($totals['total_sets'] != 0) {
+                                $set_latency = round(($totals['set_latency']/$totals['total_sets']), 6);
+                                $get_latency = round(($totals['get_latency']/$totals['total_gets']), 6);
+/*				$set_latency = round((($totals['set_latency'] / $clients) / $elapsed_time), 2);
 				$get_latency = round((($totals['get_latency'] / $clients) / $elapsed_time), 2);
+*/
 			} else {
 				$set_latency = 0;
 				$get_latency = 0;
