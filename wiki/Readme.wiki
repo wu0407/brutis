@@ -232,6 +232,16 @@ Multi client node, 20 forks, High connection count, single collector
 }}}
 
 === Release Notes ===
+Version - 0.90
+		* Added collector2 and made default
+		* Changed checksum to default to disabled
+		* Added new exit summary in collector2
+		* Fixed ratio rounding bug in set_intervals()
+		* Added latency
+		* Fixed rounding bug in operations displayed by collector.
+		* Changed random data to use chr(1-255).
+		* Fixed bug in valid hosts not allowing IP addresses.
+
 
 Version - 0.89
                 * Rename to Brutis
