@@ -7,5 +7,4 @@
  * AJAX graphing using flot
  * Memcache library abstraction
  * Support for libmemcached library
- * Support for memcache counter testing
- * Support for memcache delete testing
+ * Support for memcache incr/decr/add/replace/delete
