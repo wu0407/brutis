@@ -120,42 +120,32 @@ Exit Code 4:	Warning - Either Set failures or md5 checksum mismatch
 
 === Collector Output ===
 {{{
-Brutis
---------------------------------------------------------
-Ratio: 1:0
-Pattern: R:R
-Forks: 10
-Key Offset: 0
-Max Keys: 1000000
-Key Prefix: brutis-
-Batch: 1
-MD5 checksum: Enabled
-Poll Interval: 2 seconds
-Object Size: 256
-Output file: output.log
-Operations: 50000
-Collector: cn1:9091
-Memcache Library Version: 3
-Memcache Server(s): mc-1:11211:0
---------------------------------------------------------
+Brutis                                                               10 Clients
 
-Starting collector
-2858.28 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 2858.28 Ops/sec 0.7 MB/sec, 9 Clients
-26101.39 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 26101.39 Ops/sec 6.37 MB/sec, 10 Clients
-31088.12 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 31088.12 Ops/sec 7.59 MB/sec, 10 Clients
-28690.35 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 28690.35 Ops/sec 7 MB/sec, 10 Clients
-29509.07 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 29509.07 Ops/sec 7.2 MB/sec, 10 Clients
-28652.42 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 28652.42 Ops/sec 7 MB/sec, 10 Clients
-28831.6 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 28831.6 Ops/sec 7.04 MB/sec, 10 Clients
-29353.4 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 29353.4 Ops/sec 7.17 MB/sec, 10 Clients
-32913.78 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 32913.78 Ops/sec 8.04 MB/sec, 4 Clients
-26824.26 Sets/sec, 0 Gets/Sec, 0 Hits/sec, 0 Misses/sec, 0 Fails/sec, 26824.26 Ops/sec 6.55 MB/sec, 0 Clients
-Total Operations 500000
+Type        Ops/sec    Hits/sec  Misses/sec   Fails/sec     Latency      MB/sec
+-------------------------------------------------------------------------------
+Sets:      2,403.40         ---         ---        0.00        0.10        1.17
+Gets:     24,035.96   19,203.17      531.87    4,300.92        0.86        5.14
+Totals:   26,439.35   19,203.17      531.87    4,300.92        0.96        6.31
+-------------------------------------------------------------------------------
+
+                   SETS                                 GETS
+-------------------------------------------------------------------------------
+#     Ops/sec     Latency      MB/sec      Ops/sec     Latency      MB/sec
+-------------------------------------     -------------------------------------
+0      244.44        0.11        0.12     2,443.39        0.86        0.52
+1      242.94        0.10        0.12     2,430.39        0.86        0.52
+2      243.44        0.10        0.12     2,435.39        0.87        0.52
+3      229.44        0.12        0.11     2,291.42        0.83        0.49
+4      241.44        0.10        0.12     2,414.89        0.86        0.52
+5      239.94        0.10        0.12     2,396.40        0.86        0.51
+6      237.44        0.10        0.12     2,373.90        0.86        0.51
+7      235.94        0.10        0.12     2,361.91        0.86        0.50
+8      243.44        0.10        0.12     2,438.39        0.86        0.52
+9      244.94        0.10        0.12     2,449.88        0.86        0.52
+
 }}}
 
-Stats are averaged over the poll interval. Default 2 seconds.
- * Sets and Gets are memcache operations
- * Hits, Misses, and fails are key transations
 
 === File Output ===
 File output is in colon delimited format. A new line is added at every poll interval set at the command line. default is 2 seconds.
@@ -170,21 +160,34 @@ To calculate operations or transactions per second stats from the below format. 
 
 
 {{{
-#timestamp:sets:gets:hits:misses:set_fails:md5_fails:operations:transferred:clients
-1239273168.382:6628:0:0:0:0:0:6628:1696768:9
-1239273170.687:60166:0:0:0:0:0:60166:15402496:10
-1239273172.7554:64300:0:0:0:0:0:64300:16460800:10
-1239273174.7555:57386:0:0:0:0:0:57386:14690816:10
-1239273176.7557:59022:0:0:0:0:0:59022:15109632:10
-1239273178.7559:57311:0:0:0:0:0:57311:14671616:10
-1239273180.756:57666:0:0:0:0:0:57666:14762496:10
-1239273182.7561:58709:0:0:0:0:0:58709:15029504:10
-1239273184.7562:65833:0:0:0:0:0:65833:16853248:4
-1239273185.2401:12979:0:0:0:0:0:12979:3322624:0
-#Total Operations 500000
+#timestamp:sets:set_latency:gets:get_latency:hits:misses:set_fails:md5_fails:operations:set_transferred:get_transferred:clients
+START
+1240530481.23:61:0.01:6086:0.79:5947:139:0:0:6147:31232:1366878:1
+1240530485.23:121:0.01:12109:0.92:11843:266:0:0:12230:61952:2684941:1
+1240530487.23:60:0.01:6003:0.92:5889:114:0:0:6063:30720:1333141:1
+1240530489.23:60:0.01:5942:0.92:5824:118:0:0:6002:30720:1321096:1
+1240530491.23:60:0.01:6056:0.92:5910:146:0:0:6116:30720:1344118:1
+1240530493.23:60:0.01:5971:0.92:5843:128:0:0:6031:30720:1328520:1
+1240530495.23:60:0.01:5974:0.92:5834:140:0:0:6034:30720:1324654:1
+1240530496.16:0:0.00:0:0.00:0:0:0:0:0:0:0:1
+END
 }}}
 
  * To calculate totals for gets, sets, hits, misses, set_fails, or md5_fails, you must add all values in the column you wish to know the total for.
+
+
+=== Exit Summary ===
+{{{
+Total Operations:	       48623
+Total Sets:		         482
+Total Gets:		       48141
+Total Hits:		       47090
+Total Misses:		        1051
+Total Set Fails:	           0
+Total MD5 Fails:	           0
+Total Keys:		        2175
+Total Transferred:	    10950132
+}}}
 
 === Examples Usage ===
 {{{
