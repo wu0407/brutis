@@ -100,7 +100,7 @@ class client extends Task{
 		if ($this->args['runtime'] != NULL) {
 			$options[] = '-t' . $this->args['runtime'];
 		}
-		if ($this->args['checksum'] == FALSE) {
+		if ($this->args['checksum'] == TRUE) {
 			$options[] = '-d';
 		}
 		$options[] = '-s' . $this->args['object_size'];
