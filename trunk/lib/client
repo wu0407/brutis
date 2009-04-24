@@ -670,6 +670,18 @@ check_libs();
 init_block_size();
 gen_blocks();
 
+/* Get node name */
+$host_info = posix_uname();
+$nodename = $host_info['nodename'];
+
+if (eregi('.', $nodename)) {
+	$e_nodename = explode(".", $nodename);
+	$settings['hostname'] = $e_nodename[0];
+} else {
+	$settings['hostname'] = $nodename;
+}
+
+
 if ($settings['verbose']) {
 	printf("object_size: " . $settings['object_size'] . "\n");
 	printf("block_count: " . ($settings['block_count'] + 1) . "\n");
