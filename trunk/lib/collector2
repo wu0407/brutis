@@ -146,14 +146,20 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$gmbps = number_format((($sample['get_transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
 			$ops = number_format(($sample['operations'] / $elapsed_time), 2, '.', ',');
 
-			if ($clients != 0) {
-				$set_latency = number_format((($sample['set_latency'] / $clients) / $elapsed_time), 2, '.', ',');
-				$get_latency = number_format((($sample['get_latency'] / $clients) / $elapsed_time), 2, '.', ',');
-				$total_latency = number_format(((($sample['get_latency'] + $sample['set_latency']) / $clients) / $elapsed_time), 2, '.', ',');
+			if (($sample['set_latency'] != 0) && ($sample['set_count'] != 0)) {
+				$set_latency = number_format(($sample['set_latency'] / $sample['set_count']), 6, '.', ',');
 			} else {
-				$set_latency = number_format(0, 2, '.', ',');
-				$get_latency = number_format(0, 2, '.', ',');
-				$total_latency = number_format(0, 2, '.', ',');
+				$set_latency = number_format(0, 6, '.', ',');
+			}
+			if (($sample['get_latency'] != 0) && ($sample['get_count'] != 0)) {
+				$get_latency = number_format(($sample['get_latency'] / $sample['get_count']), 6, '.', ',');
+			} else {
+				$get_latency = number_format(0, 6, '.', ',');
+			}
+			if (($sample['set_latency'] != 0) && ($sample['get_latency'] != 0) && ($sample['set_count'] != 0) && ($sample['get_count'] != 0)) {
+				$total_latency = number_format(($set_latency + $get_latency), 6, '.', ',');
+			} else {
+				$total_latency = number_format(0, 6, '.', ',');
 			}
 
 			self::clear_screen();
@@ -173,8 +179,17 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 
 			foreach ($totals as $client_id=>$total) {
 				if (isset($total['settings'])) {
-					$c_set_latency = number_format(($total['sample']['set_latency'] / $elapsed_time), 2, '.', ',');
-					$c_get_latency = number_format(($total['sample']['get_latency'] / $elapsed_time), 2, '.', ',');
+					if (($total['sample']['set_latency'] != 0) && ($total['sample']['set_count'] != 0)) {
+						$c_set_latency = number_format(($total['sample']['set_latency'] / $total['sample']['set_count']), 6, '.', ',');
+					} else {
+						$c_set_latency = number_format(0, 6, '.', ',');
+					}
+					if (($total['sample']['get_latency'] != 0) && ($total['sample']['get_count'] != 0)) {
+						$c_get_latency = number_format(($total['sample']['get_latency'] / $total['sample']['get_count']), 6, '.', ',');
+					} else {
+						$c_get_latency = number_format(0, 6, '.', ',');
+					}
+
 					$c_sps = number_format($total['sample']['set_count'] / $elapsed_time, 2, '.', ',');
 					$c_gps = number_format($total['sample']['get_count'] / $elapsed_time, 2, '.', ',');
 					$c_smbps = number_format((($total['sample']['set_transferred'] / 1024 / 1024) / $elapsed_time), 2, '.', ',');
