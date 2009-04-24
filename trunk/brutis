@@ -65,9 +65,11 @@ class collector extends Task{
 		}
 		$options[] = '-c' . $this->args['collector']['server'] . ":". $this->args['collector']['port'];
 		if (isset($options)) {
+			/*pcntl_exec('lib/collector', $options);*/
 			pcntl_exec('lib/collector2', $options);
 		} else {
 			pcntl_exec('lib/collector2', array());
+			/*pcntl_exec('lib/collector', array());*/
 		}
 	}
 	function finish() {
@@ -203,13 +205,13 @@ $host_info = posix_uname();
 $nodename = $host_info['nodename'];
 if (eregi('.', $nodename)) {
 	$e_nodename = explode(".", $nodename);
-	$hostname = $e_nodename[0];
+	$settings['hostname'] = $e_nodename[0];
 } else {
-	$hostname = $nodename;
+	$settings['hostname'] = $nodename;
 }
 
 /* If collector specified is this host, add collector to taskmanager to be executed */
-if ($settings['collector']['server'] == $hostname || $settings['collector']['server'] == 'localhost') {
+if ($settings['collector']['server'] == $settings['hostname'] || $settings['collector']['server'] == 'localhost') {
 	$tm->add_task(new collector(), $settings);
 }
 
