@@ -80,7 +80,7 @@ Options may be given in any order.
 	Host to connect or start collector on. Default is localhost's DNS name '<hostname>:9091'.
 
 -d
-	Disable MD5 checksum.
+	Enable MD5 checksum.
 
 -r {Set Ratio:Get Ratio}
 	Ratio of sets to gets. Default '1:10'.
