@@ -48,14 +48,23 @@ require_once('lib/functions.php');
 require_once('Net/Server.php');
 require_once 'Net/Server/Handler.php';
 
-define('FIELD_SIZE', 12);
+define('LARGE_FIELD_SIZE', 12);
+define('MID_FIELD_SIZE', 8);
+define('SMALL_FIELD_SIZE', 4);
+define('LEFT', 0);
+define('RIGHT', 1);
 
-	function pad ($value) {
-		if (strlen($value) > FIELD_SIZE) {
-			$value = "      XXXX.XX";
+	function pad ($value, $length=LARGE_FIELD_SIZE, $side=LEFT) {
+		if (strlen($value) > $length) {
+			$value = substr($value, 0, (((strlen($value) - $length) + 2) * -1));
+			$value = $value . '..';
 		} else {
-			while (strlen($value) < FIELD_SIZE) {
-				$value = " " . $value;
+			while (strlen($value) < $length) {
+				if ($side == LEFT) {
+					$value = ' ' . $value;
+				} else {
+					$value = $value . ' ';
+				}
 			}
 		}
 		return $value;
@@ -85,7 +94,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		$sample['set_latency'] = 0;
 		$sample['get_latency'] = 0;
 
-		foreach ($totals as $client_id=>$total) {
+		foreach ($totals as $host=>$total) {
 			foreach ($total['raw'] as $key=>$value) {
 				$sample[$key] = $sample[$key] + $value;
 			}
@@ -129,7 +138,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		$sample['get_latency'] = 0;
 
 		if ($settings['verbose']) {
-			foreach ($totals as $client_id=>$total) {
+			foreach ($totals as $host=>$total) {
 				foreach ($total['sample'] as $key=>$value) {
 					$sample[$key] = $sample[$key] + $value;
 				}
@@ -172,12 +181,12 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 				'Totals:' . pad($ops) . pad($hps) . pad($mps) . pad($tfps) . pad($total_latency) . pad($tmbps) . "\n" .
 				"-------------------------------------------------------------------------------\n\n" .
 
-				"                   SETS                                 GETS\n" .
+				"                              SETS                             GETS\n" .
 				"-------------------------------------------------------------------------------\n" .
-				"#" . pad('Ops/sec') . pad('Latency') . pad('MB/sec') . " " . pad('Ops/sec') . pad('Latency') . pad('MB/sec') . "\n" .
-				"-------------------------------------     -------------------------------------\n");
+				"Host        " . pad('Ops/sec') . pad('Latency') . pad('MB/sec', MID_FIELD_SIZE) . " " . pad('Ops/sec') . pad('Latency') . pad('MB/sec', MID_FIELD_SIZE) . "\n" .
+				"--------------------------------------------      -----------------------------\n");
 
-			foreach ($totals as $client_id=>$total) {
+			foreach ($totals as $host=>$total) {
 				if (isset($total['settings'])) {
 					if (($total['sample']['set_latency'] != 0) && ($total['sample']['set_count'] != 0)) {
 						$c_set_latency = number_format(($total['sample']['set_latency'] / $total['sample']['set_count']), 6, '.', ',');
@@ -202,7 +211,8 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 						$c_checksum = "FALSE";
 					}
 	
-					printf($client_id . pad($c_sps) . pad($c_set_latency) . pad($c_smbps) . " " . pad($c_gps) . pad($c_get_latency) . pad($c_gmbps) . "\n");
+					printf(pad($host, LARGE_FIELD_SIZE, RIGHT) . pad($c_sps) . pad($c_set_latency) . pad($c_smbps, MID_FIELD_SIZE) . " " . pad($c_gps) . pad($c_get_latency) . pad($c_gmbps, MID_FIELD_SIZE) . "\n");
+						
 				}
 			}
 		}
@@ -276,40 +286,44 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			}
 		}
 	}
+	
+	function new_host ($host) {
+		global $totals;
+
+		$totals[$host] = array();
+		$totals[$host]['raw'] = array();
+		$totals[$host]['raw']['key_count'] = 0;
+		$totals[$host]['raw']['operations'] = 0; 
+		$totals[$host]['raw']['set_count'] = 0;
+		$totals[$host]['raw']['get_count'] = 0;
+		$totals[$host]['raw']['hit_count'] = 0;
+		$totals[$host]['raw']['miss_count'] = 0;
+		$totals[$host]['raw']['set_fail_count'] = 0;
+		$totals[$host]['raw']['md5_fail_count'] = 0;
+		$totals[$host]['raw']['set_transferred'] = 0;
+		$totals[$host]['raw']['get_transferred'] = 0;
+
+		$totals[$host]['sample'] = array();
+		$totals[$host]['sample']['key_count'] = 0;
+		$totals[$host]['sample']['operations'] = 0; 
+		$totals[$host]['sample']['set_count'] = 0;
+		$totals[$host]['sample']['get_count'] = 0;
+		$totals[$host]['sample']['hit_count'] = 0;
+		$totals[$host]['sample']['miss_count'] = 0;
+		$totals[$host]['sample']['set_fail_count'] = 0;
+		$totals[$host]['sample']['md5_fail_count'] = 0;
+		$totals[$host]['sample']['set_transferred'] = 0;
+		$totals[$host]['sample']['get_transferred'] = 0;
+		$totals[$host]['sample']['set_latency'] = 0;
+		$totals[$host]['sample']['get_latency'] = 0;
+
+	}
 
 	function OnConnect ($client_id = 0) {
 /*		onConnect() {
 		new client connect
 */
 		global $clients;
-		global $totals;
-
-		$totals[$client_id] = array();
-		$totals[$client_id]['raw'] = array();
-		$totals[$client_id]['raw']['key_count'] = 0;
-		$totals[$client_id]['raw']['operations'] = 0; 
-		$totals[$client_id]['raw']['set_count'] = 0;
-		$totals[$client_id]['raw']['get_count'] = 0;
-		$totals[$client_id]['raw']['hit_count'] = 0;
-		$totals[$client_id]['raw']['miss_count'] = 0;
-		$totals[$client_id]['raw']['set_fail_count'] = 0;
-		$totals[$client_id]['raw']['md5_fail_count'] = 0;
-		$totals[$client_id]['raw']['set_transferred'] = 0;
-		$totals[$client_id]['raw']['get_transferred'] = 0;
-
-		$totals[$client_id]['sample'] = array();
-		$totals[$client_id]['sample']['key_count'] = 0;
-		$totals[$client_id]['sample']['operations'] = 0; 
-		$totals[$client_id]['sample']['set_count'] = 0;
-		$totals[$client_id]['sample']['get_count'] = 0;
-		$totals[$client_id]['sample']['hit_count'] = 0;
-		$totals[$client_id]['sample']['miss_count'] = 0;
-		$totals[$client_id]['sample']['set_fail_count'] = 0;
-		$totals[$client_id]['sample']['md5_fail_count'] = 0;
-		$totals[$client_id]['sample']['set_transferred'] = 0;
-		$totals[$client_id]['sample']['get_transferred'] = 0;
-		$totals[$client_id]['sample']['set_latency'] = 0;
-		$totals[$client_id]['sample']['get_latency'] = 0;
 
 		$clients++;
 
@@ -335,6 +349,7 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 		global $totals;
 		global $settings;
 		global $last_write;
+		global $hosts;
 
 		if (!$data = unserialize($data)) {
 			print ("Error in collector data\n");
@@ -344,55 +359,62 @@ class Net_Server_Handler_Talkback extends Net_Server_Handler {
 			$this->_server->sendData($client_id, "ack\n");
 		}
 
+		if (!isset($hosts[$client_id])) {
+			$hosts[$client_id] = $data['settings']['hostname'];
+			self::new_host($data['settings']['hostname']);
+		}
+
+		$host = $hosts[$client_id];
+			
 		if (isset($data['key_count'])) {
-			$totals[$client_id]['sample']['key_count'] = $totals[$client_id]['sample']['key_count'] + $data['key_count'];		
-			$totals[$client_id]['raw']['key_count'] = $totals[$client_id]['raw']['key_count'] + $data['key_count'];		
+			$totals[$host]['sample']['key_count'] = $totals[$host]['sample']['key_count'] + $data['key_count'];		
+			$totals[$host]['raw']['key_count'] = $totals[$host]['raw']['key_count'] + $data['key_count'];		
 		}
 		if (isset($data['operations'])) {
-			$totals[$client_id]['sample']['operations'] = $totals[$client_id]['sample']['operations'] + $data['operations'];		
-			$totals[$client_id]['raw']['operations'] = $totals[$client_id]['raw']['operations'] + $data['operations'];		
+			$totals[$host]['sample']['operations'] = $totals[$host]['sample']['operations'] + $data['operations'];		
+			$totals[$host]['raw']['operations'] = $totals[$host]['raw']['operations'] + $data['operations'];		
 		}
 		if (isset($data['set_count'])) {
-			$totals[$client_id]['sample']['set_count'] = $totals[$client_id]['sample']['set_count'] + $data['set_count'];		
-			$totals[$client_id]['raw']['set_count'] = $totals[$client_id]['raw']['set_count'] + $data['set_count'];		
+			$totals[$host]['sample']['set_count'] = $totals[$host]['sample']['set_count'] + $data['set_count'];		
+			$totals[$host]['raw']['set_count'] = $totals[$host]['raw']['set_count'] + $data['set_count'];		
 		}
 		if (isset($data['hit_count'])) {
-			$totals[$client_id]['sample']['hit_count'] = $totals[$client_id]['sample']['hit_count'] + $data['hit_count'];		
-			$totals[$client_id]['raw']['hit_count'] = $totals[$client_id]['raw']['hit_count'] + $data['hit_count'];		
+			$totals[$host]['sample']['hit_count'] = $totals[$host]['sample']['hit_count'] + $data['hit_count'];		
+			$totals[$host]['raw']['hit_count'] = $totals[$host]['raw']['hit_count'] + $data['hit_count'];		
 		}
 		if (isset($data['get_count'])) {
-			$totals[$client_id]['sample']['get_count'] = $totals[$client_id]['sample']['get_count'] + $data['get_count'];		
-			$totals[$client_id]['raw']['get_count'] = $totals[$client_id]['raw']['get_count'] + $data['get_count'];		
+			$totals[$host]['sample']['get_count'] = $totals[$host]['sample']['get_count'] + $data['get_count'];		
+			$totals[$host]['raw']['get_count'] = $totals[$host]['raw']['get_count'] + $data['get_count'];		
 		}
 		if (isset($data['miss_count'])) {
-			$totals[$client_id]['sample']['miss_count'] = $totals[$client_id]['sample']['miss_count'] + $data['miss_count'];		
-			$totals[$client_id]['raw']['miss_count'] = $totals[$client_id]['raw']['miss_count'] + $data['miss_count'];		
+			$totals[$host]['sample']['miss_count'] = $totals[$host]['sample']['miss_count'] + $data['miss_count'];		
+			$totals[$host]['raw']['miss_count'] = $totals[$host]['raw']['miss_count'] + $data['miss_count'];		
 		}
 		if (isset($data['set_fail_count'])) {
-			$totals[$client_id]['sample']['set_fail_count'] = $totals[$client_id]['sample']['set_fail_count'] + $data['set_fail_count'];		
-			$totals[$client_id]['raw']['set_fail_count'] = $totals[$client_id]['raw']['set_fail_count'] + $data['set_fail_count'];		
+			$totals[$host]['sample']['set_fail_count'] = $totals[$host]['sample']['set_fail_count'] + $data['set_fail_count'];		
+			$totals[$host]['raw']['set_fail_count'] = $totals[$host]['raw']['set_fail_count'] + $data['set_fail_count'];		
 		}
 		if (isset($data['md5_fail_count'])) {
-			$totals[$client_id]['sample']['md5_fail_count'] = $totals[$client_id]['sample']['md5_fail_count'] + $data['md5_fail_count'];		
-			$totals[$client_id]['raw']['md5_fail_count'] = $totals[$client_id]['raw']['md5_fail_count'] + $data['md5_fail_count'];		
+			$totals[$host]['sample']['md5_fail_count'] = $totals[$host]['sample']['md5_fail_count'] + $data['md5_fail_count'];		
+			$totals[$host]['raw']['md5_fail_count'] = $totals[$host]['raw']['md5_fail_count'] + $data['md5_fail_count'];		
 		}
 		if (isset($data['set_transferred'])) {
-			$totals[$client_id]['sample']['set_transferred'] = $totals[$client_id]['sample']['set_transferred'] + $data['set_transferred'];		
-			$totals[$client_id]['raw']['set_transferred'] = $totals[$client_id]['raw']['set_transferred'] + $data['set_transferred'];		
+			$totals[$host]['sample']['set_transferred'] = $totals[$host]['sample']['set_transferred'] + $data['set_transferred'];		
+			$totals[$host]['raw']['set_transferred'] = $totals[$host]['raw']['set_transferred'] + $data['set_transferred'];		
 		}
 		if (isset($data['get_transferred'])) {
-			$totals[$client_id]['sample']['get_transferred'] = $totals[$client_id]['sample']['get_transferred'] + $data['get_transferred'];		
-			$totals[$client_id]['raw']['get_transferred'] = $totals[$client_id]['raw']['get_transferred'] + $data['get_transferred'];		
+			$totals[$host]['sample']['get_transferred'] = $totals[$host]['sample']['get_transferred'] + $data['get_transferred'];		
+			$totals[$host]['raw']['get_transferred'] = $totals[$host]['raw']['get_transferred'] + $data['get_transferred'];		
 		}
 		if (isset($data['set_latency'])) {
-			$totals[$client_id]['sample']['set_latency'] = $totals[$client_id]['sample']['set_latency'] + $data['set_latency'];		
+			$totals[$host]['sample']['set_latency'] = $totals[$host]['sample']['set_latency'] + $data['set_latency'];		
 		}
 		if (isset($data['get_latency'])) {
-			$totals[$client_id]['sample']['get_latency'] = $totals[$client_id]['sample']['get_latency'] + $data['get_latency'];		
+			$totals[$host]['sample']['get_latency'] = $totals[$host]['sample']['get_latency'] + $data['get_latency'];		
 		}
 
 		if (isset($data['settings'])) {
-			$totals[$client_id]['settings'] = $data['settings'];
+			$totals[$host]['settings'] = $data['settings'];
 		}
 
 		$current_time = microtime(TRUE);
@@ -423,6 +445,7 @@ $in_service = FALSE;
 $clients = 0;
 $totals = array();
 $settings = array();
+$hosts = array();
 
 $options = getopt('o:vi:c:');
 
