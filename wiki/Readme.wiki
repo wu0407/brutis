@@ -230,6 +230,18 @@ Multi client node, 20 forks, High connection count, single collector
 }}}
 
 === Release Notes ===
+Version - 0.91
+		* Changed connection count on collector to client connection count
+		* Renamed collector3 to collector, removed old collectors
+		* Issue 7: Fixed latency bug
+		* Collector 3 introduced
+		* Removed dependency on Net_Server & Net_Socket
+		* Aggregate stats per client hostname
+		* Added connection Multiplier (Experimental)
+		* Switch from Connect to addServer to use connection pooling
+		* Added Persistent commandline option
+		* Added Reconnect timer for non-persistent connection tests
+
 Version - 0.90
 		* Added collector2 and made default
 		* Changed checksum to default to disabled
