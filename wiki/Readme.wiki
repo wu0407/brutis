@@ -27,8 +27,6 @@ Brutis exercises and measures the performance of one or more memcache instances 
   #. Reporting the results to a collector
 
 === Required Libraries ===
-        * `pear/Net_Socket >= 1.0.8 -` http://pear.php.net/package/Net_Socket
-        * `pear/Net_Server >= 1.0.2 -` http://pear.php.net/package/Net_Server
         * `pecl/memcache   >= 2.2.4 -` http://pecl.php.net/package/memcache
 
 
@@ -69,6 +67,15 @@ Options may be given in any order.
 
 -p {Key Prefix}
 	Data to use for key prefix. Keys are a concatenation of $prefix and $key_id. Default is 'brutis-'.
+
+-P
+        Use persistent connections
+
+-R {time}
+        Time before forcing disconnect/reconnect of connection pool (for non-persistent connections)
+
+-m {Multiplier}
+       Number of connection pools to create. used for large connection count testing.
 
 -i {Poll interval}
 	Interval in seconds to send data to collector and write out to output file.
@@ -216,10 +223,10 @@ Multi client node, 20 forks, mixed load/size test, single collector
 	cn-4: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4 -a r:s -r 1:1 -v -s 64 -c cn-1
 
 Multi client node, 20 forks, High connection count, single collector
-	cn-1: ./brutis -i 20 -x mc-1,mc-2,mc-3,mc-4,mc-1,mc-2,mc-3,mc-4 -a r:r -r 1:10 -v -c cn-1
-	cn-2: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4,mc-1,mc-2,mc-3,mc-4 -a r:r -r 1:10 -v -c cn-1
-	cn-3: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4,mc-1,mc-2,mc-3,mc-4 -a r:r -r 1:10 -v -c cn-1
-	cn-4: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4,mc-1,mc-2,mc-3,mc-4 -a r:r -r 1:10 -v -c cn-1
+	cn-1: ./brutis -i 20 -x mc-1,mc-2,mc-3,mc-4 -m 20-a r:r -r 1:10 -v -c cn-1
+	cn-2: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4 -m 20 -a r:r -r 1:10 -v -c cn-1
+	cn-3: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4 -m 20 -a r:r -r 1:10 -v -c cn-1
+	cn-4: ./brutis -f 20 -x mc-1,mc-2,mc-3,mc-4 -m 20 -a r:r -r 1:10 -v -c cn-1
 }}}
 
 === Release Notes ===
