@@ -6,7 +6,7 @@ Brutis is a tool designed to exercise memcache instances by providing reproducib
 When sizing memcached clusters, Brutis can help by stressing a memcached cluster to see:
   * How many ops the cluster is capable of
   * How much load the network config can take
-  * How many connections a memcache cluster is capable of handling (we’ve tested up to 40K connections)
+  * How many connections a memcache cluster is capable of handling (we’ve tested up to 100K connections)
 
 With respect to instance (not cluster) sizing, Brutis can be used to simulate varying object and key sizes to see how many keys/objects can fit in a memcache instance before evictions start.
 
