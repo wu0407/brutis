@@ -27,12 +27,16 @@ Brutis exercises and measures the performance of one or more memcache instances 
   #. Reporting the results to a collector
 
 === Required Libraries ===
-        * `pecl/memcache   >= 2.2.4 -` http://pecl.php.net/package/memcache
+        * `pecl/memcache           >= 2.2.4 -` http://pecl.php.net/package/memcache
+
+For JSON formated output:
+        * `pear/Services_JSON      >= 1.0.0 -` http://pear.php.net/package/Services_JSON
 
 
 
 ===Known Issues===
  * Random batch gets can cause false misses if rand() picks the same key multiple times
+ * Total stats may not work on 32Bit arch. Looking into big int to work around php's lack of uint64_t
 
 === Files ===
 {{{
@@ -84,6 +88,9 @@ Options may be given in any order.
 -c {Collector:Port}
 	Host to connect or start collector on. Default is localhost's DNS name '<hostname>:9091'.
 
+-D
+        Disable starting of local collector. (for remote reporting)
+
 -d
 	Enable MD5 checksum.
 
@@ -98,6 +105,9 @@ Options may be given in any order.
 
 -f {Forks}
 	Number of clients to fork. Default '1'.
+
+-F {Format}
+        Format of output file. CSV or JSON supported. Default CSV.
 
 -s {Size}
 	Size of object to generate for sets in bytes. Default 256.
