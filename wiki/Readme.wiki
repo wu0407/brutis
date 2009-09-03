@@ -238,7 +238,7 @@ Multi client node, 20 forks, High connection count, single collector
 }}}
 
 === Release Notes ===
-        Version - 0.92
+Version - 0.92
                 * Fixed bug with taskmanager library hitting maxruntime and killing collector
                 * Fixed bug with collector starting when -v & -o not specified in client
                 * Fixed disconnect errors in collector 
