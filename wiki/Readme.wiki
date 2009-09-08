@@ -30,9 +30,10 @@ Brutis exercises and measures the performance of one or more memcache instances 
 
 Brutis requires PHP 5 or newer with the following compiled in:
 
-*Sockets Support
-
-*pcntl
+{{{{
+ Sockets Support
+ pcntl
+}}}}
 
 PHP Libraries:
         * `pecl/memcache           >= 2.2.4 -` http://pecl.php.net/package/memcache
